@@ -1,5 +1,7 @@
 ﻿using PasswordManager.Modules.Buttons;
+using PasswordManager.Modules.Github;
 using PasswordManager.Modules.Key;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PasswordManager.Modules.View
@@ -10,6 +12,7 @@ namespace PasswordManager.Modules.View
     public class MainViewModel
     {
         public readonly Password.PasswordManager _passwordManager = new Password.PasswordManager("password.dat", KeyManagerWrapper.Instance);
+        public readonly GitHubManager _gitHubManager = new GitHubManager("PasswordManager");
         public ICommand KeySelectCommand { get; }
         public ICommand LogoutButtonCommand { get; }
 
@@ -29,6 +32,33 @@ namespace PasswordManager.Modules.View
         /// </summary>
         public MainViewModel()
         {
+            /*
+            Task.Run(async () =>
+            {
+                var result = await _gitHubManager.CheckUpdate();
+
+                if(result)
+                {
+                    var downloadResult = await _gitHubManager.DownloadLastVersion();
+
+                    if (downloadResult)
+                    {
+                        MessageBox.Show("Software all'ultima versione!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    } else
+                    {
+                        MessageBox.Show("Download error", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                        Application.Current.Shutdown();
+                    }
+                } else
+                {
+                    MessageBox.Show("Software all'ultima versione!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            });
+            */
+
+
+
             KeySelectCommand = new RelayCommand(new KeySelectButton());
             LogoutButtonCommand = new RelayCommand(new LogoutButton());
             CreateAccountButtonCommand = new RelayCommand(new CreateAccountButton(_passwordManager));
